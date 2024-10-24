@@ -36,5 +36,8 @@ class Splash : BaseFragment<SplashBinding>(SplashBinding::inflate) {
     override fun initAllObserver() {}
     override fun initOnClickListener() {}
     override fun onViewClicker(p0: View?) {}
+    override fun onViewLongClicker(p0: View?) {
+
+    }
 
 }

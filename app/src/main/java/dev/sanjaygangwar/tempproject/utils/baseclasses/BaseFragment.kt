@@ -13,9 +13,9 @@ import dev.sanjaygangwar.tempproject.utils.HapticFeedbackManager
 
 
 abstract class BaseFragment<VB : ViewBinding>(private val inflate: InflateFragmentLayout<VB>) :
-    Fragment(), View.OnClickListener {
+    Fragment(), View.OnClickListener, View.OnLongClickListener {
 
-    private var bind: VB? = null
+    var bind: VB? = null
     private val hapticFeedbackManager by lazy { context?.let { HapticFeedbackManager(it) } }
     lateinit var clickableViews: List<View?>
 
@@ -40,6 +40,7 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: InflateFragme
         if (::clickableViews.isInitialized) {
             clickableViews.forEach {
                 it?.setOnClickListener(this)
+                it?.setOnLongClickListener(this)
             }
         }
     }
@@ -51,6 +52,7 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: InflateFragme
     abstract fun initOnClickListener()
 
     abstract fun onViewClicker(p0: View?)
+    abstract fun onViewLongClicker(p0: View?)
 
     override fun onClick(p0: View?) {
         hapticFeedbackManager?.vibrate(100)
@@ -66,6 +68,7 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: InflateFragme
         if (::clickableViews.isInitialized) {
             clickableViews.forEach {
                 it?.setOnClickListener(null)
+                it?.setOnLongClickListener(null)
             }
         }
     }
@@ -81,5 +84,11 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate: InflateFragme
 
     fun hideLoader(){
         (activity as Main).hideLoader()
+    }
+
+    override fun onLongClick(v: View?): Boolean {
+        hapticFeedbackManager?.vibrate(100)
+        onViewLongClicker(v)
+        return true
     }
 }

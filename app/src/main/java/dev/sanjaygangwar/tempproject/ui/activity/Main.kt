@@ -13,6 +13,10 @@ import android.provider.Settings
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.facebook.ads.AudienceNetworkAds
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.tasks.Task
@@ -37,11 +41,6 @@ import dev.sanjaygangwar.tempproject.utils.extenstionfuntions.Extensions.show
 import dev.sanjaygangwar.tempproject.utils.extenstionfuntions.VariableConst.Notification
 import dev.sanjaygangwar.tempproject.utils.mUtils.mLog
 import dev.sanjaygangwar.tempproject.utils.network.NetworkObserver
-import dev.sanjaygangwar.tempproject.workers.DummyWorker.DummyWorkers.startDummyWorker
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 @AndroidEntryPoint
@@ -60,6 +59,7 @@ class Main : BaseActivity<MainBinding>(MainBinding::inflate), GenericDialog.Gene
         initAdsSdk()
         initAllPermission()
         setupLoader()
+        openAppInFullScreen()
 
 //        Shared Preferences and Worker -------------------------------------
 //        CoroutineScope(Dispatchers.IO).launch {
@@ -73,6 +73,31 @@ class Main : BaseActivity<MainBinding>(MainBinding::inflate), GenericDialog.Gene
 //        }
 //        startDummyWorker(context = this)
     //        Shared Preferences and Worker -------------------------------------
+    }
+
+    private fun openAppInFullScreen() {
+        val windowInsetsController =
+            WindowCompat.getInsetsController(window, window.decorView)
+        // Configure the behavior of the hidden system bars.
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
+        // Add a listener to update the behavior of the toggle fullscreen button when
+        // the system bars are hidden or revealed.
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { view, windowInsets ->
+            // You can hide the caption bar even when the other system bars are visible.
+            // To account for this, explicitly check the visibility of navigationBars()
+            // and statusBars() rather than checking the visibility of systemBars().
+            if (windowInsets.isVisible(WindowInsetsCompat.Type.navigationBars())
+                || windowInsets.isVisible(WindowInsetsCompat.Type.statusBars())
+            ) {
+                windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+            } else {
+
+            }
+            windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+            ViewCompat.onApplyWindowInsets(view, windowInsets)
+        }
     }
 
     private fun setupLoader() {

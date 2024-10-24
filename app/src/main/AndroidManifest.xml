@@ -5,6 +5,17 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <queries>
+        <package android:name="com.microsoft.office.outlook" />
+        <package android:name="com.linkedin.android" />
+        <package android:name="in.hirect" />
+        <package android:name="naukriApp.appModules.login" />
+        <package android:name="com.glassdoor.app" />
+        <package android:name="com.indeed.android.jobsearch" />
+        <package android:name="com.infoedge.bigshyft" />
+        <package android:name="com.openai.chatgpt" />
+
+    </queries>
     <application
         android:allowBackup="true"
         android:name=".ui.activity.MainApplication"
@@ -49,6 +60,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+
     </application>
 
 </manifest>

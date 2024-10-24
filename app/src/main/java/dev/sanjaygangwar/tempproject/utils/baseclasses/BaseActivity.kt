@@ -1,8 +1,10 @@
 package dev.sanjaygangwar.tempproject.utils.baseclasses
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import dev.sanjaygangwar.tempproject.utils.HapticFeedbackManager
@@ -20,6 +22,16 @@ abstract class BaseActivity<VB : ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = inflate(layoutInflater)
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowInsetsController = window.insetsController
+            if (windowInsetsController != null) {
+                window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+            }
+        }
         bind?.apply {
             setContentView(this.root)
         }
