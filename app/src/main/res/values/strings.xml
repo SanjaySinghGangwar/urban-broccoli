@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">TempProject</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="something_went_heywire">Something went haywire !!</string>
+    <string name="ab_mob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="facebook_app_id" translatable="false">333769839581777</string>
+    <string name="notification">Notification</string>
+    <string name="dismiss">dismiss</string>
+    <string name="allow">allow</string>
+    <string name="location_descrippton_two"> to determine your location to get weather report"</string>
+    <string name="location_descripton_two">Turn on location service to allow "</string>
+    <string name="notification_descrippton_two"> to send you notifications"</string>
+    <string name="notification_descripton_two">Turn on notification service to allow "</string>
+    <string name="made_wiith_in">Made with ❤️ in 🇮🇳</string>
+</resources>

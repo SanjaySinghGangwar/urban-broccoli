@@ -1,0 +1,46 @@
+default_platform(:android)
+
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test")
+  end
+
+  desc "Submit a new Beta Build to Crashlytics Beta"
+  lane :beta do
+    gradle(task: "clean assembleRelease")
+    crashlytics
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    #auto increase version pending
+
+    #clean the project
+    gradle(
+        task: "clean bundleRelease"
+    )
+
+    #create a new aab file and upload
+    upload_to_play_store(
+        track: 'production', # Set your desired track (e.g., internal, alpha, beta, production)
+        aab: '/Users/kutumb/Desktop/Projects/Boiler/boilerplate-android/app/build/outputs/bundle/release/app-release.aab', # Path to your AAB
+        skip_upload_metadata: true, # Set this to true if you don't want to upload metadata
+        skip_upload_images: true,
+        skip_upload_screenshots: true
+    )
+  end
+
+   lane :download_metadata do
+      supply(
+        track: 'production',
+        package_name: 'dev.sanjaygangwar.tempproject',
+        json_key: '/Users/kutumb/Desktop/Projects/Boiler/boilerplate-android/FastLaneCred.json',
+        skip_upload_metadata: true, # Set to true to skip metadata upload
+        skip_upload_images: true,   # Set to true to skip image upload
+        skip_upload_screenshots: true, # Set to true to skip screenshot upload
+        skip_upload_apk: true,       # Set to true to skip APK upload
+        timeout: 300
+      )
+    end
+end
